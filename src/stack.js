@@ -16,43 +16,52 @@ const { NotImplementedError } = require('../extensions/index.js');
  class Node {
   constructor(data) {
     this.data = data;
-    this.previous = null;
+    this.next = null;
   }
  };
 
 
 class Stack {
-    constructor() {
-      this.top = null;
-      this.size = 0;
-      this.store = [... args.reverse()];
-    }
-
+  constructor() {
+    this.top = null;
+    this.count = 0;
+  }
   push(data) {
-   let node = new Node(data);
 
-    node.previous = this.top;
-    this.top = node;
-    this.size += 1;
-    return this.top;
+    var node = new Node(data);
+
+       node.next = this.top;
+        this.top = node;
+
+        this.count++;
   }
 
   pop() {
-    temp = this.top;
-    this.top = this.top.previous;
-    this.size -= 1;
-    return temp;
+    if(this.top === null){
+      return null;
+  }else{
+      var out = this.top;
+      this.top = this.top.next;
+      if(this.count>0){
+          this.count--;
+      }
+
+      return out.data;
   }
+    }
 
   peek() {
+    // throw new NotImplementedError('Not implemented');
     if(this.top === null){
       return null;
   }else{
       return this.top.data;
   }
-  }
-  
 }
+}
+module.exports = {
+  Stack
+};
 
 module.exports = {
   Stack
