@@ -134,109 +134,170 @@ const { NotImplementedError } = require('../extensions/index.js');
 //     return this.first
 //   }
 // }
-class ListNode {
-  constructor(value, next = null) {
+
+
+
+
+
+// class ListNode {
+//   constructor(value, next = null) {
+//     this.value = value;
+//     this.next = next;
+//   }
+// }
+
+// class LinkedList {
+//   constructor(comparator) {
+//     this.head = null;
+//     this.tail = null;
+
+//     this.comparator =
+//       comparator ||
+//       function (i, j) {
+//         if (i < j) return -1;
+//         if (i > j) return 1;
+//         return 0;
+//       };
+//   }
+
+//   prepend(value) {
+//     let newNode = new ListNode(value, this.head);
+//     this.head = newNode;
+
+//     if (!this.tail) this.tail = newNode;
+//   }
+
+//   append(value) {
+//     let newNode = new ListNode(value);
+//     if (this.tail) this.tail.next = newNode;
+//     this.tail = newNode;
+//     if (!this.head) this.head = newNode;
+
+//   }
+
+//   delete(value) {
+//     if (!this.head) return;
+//     while (this.head && this.comparator(this.head.value, value) === 0) {
+//       this.head = this.head.next;
+//     }
+
+//     let current = this.head;
+
+//     if (current !== null) {
+//       while (current.next) {
+//         if (this.comparator(current.next.value, value) === 0) {
+//           current.next = current.next.next;
+//         } else {
+//           current = current.next;
+//         }
+//       }
+//     }
+//   }
+//   deleteHead() {
+//     if (!this.head) return null;
+//     let deletedHead = this.head;
+
+//     if (this.head.next) {
+//       this.head = this.head.next;
+//     } else {
+//       this.head = null;
+//       this.tail = null;
+//     }
+
+//     return deletedHead;
+//   }
+//   forEach(callback) {
+//     return this.toArray()
+//     // На каждом узле вызываем метод toString
+//     // что бы получить значение в виде строки.
+//     .map(node => node.toString(callback))
+//     // Вызываем метод toString на массиве строк.
+//     .toString();
+//     // let current = this.head;
+//     // while (current) {
+//     //   callback(current.value);
+//     //   current = current.next;
+//     // }
+//   }
+
+// }
+
+
+// class Queue {
+//     constructor() {
+//       this.linkedList = new LinkedList();
+//     }
+
+//     getUnderlyingList() {
+//       return JSON.stringify(this.Queue);
+
+//     }
+
+//     enqueue(value) {
+//       this.linkedList.append(value);
+//     }
+
+//     dequeue() {
+//       const removedHead = this.linkedList.deleteHead();
+//       return removedHead ? removedHead.value : null;
+//     }
+//   }
+class Node {
+  constructor(value) {
     this.value = value;
-    this.next = next;
+    this.next = null;
   }
-}
+ };
 
-class LinkedList {
-  constructor(comparator) {
-    this.head = null;
-    this.tail = null;
-
-    this.comparator =
-      comparator ||
-      function (i, j) {
-        if (i < j) return -1;
-        if (i > j) return 1;
-        return 0;
-      };
-  }
-
-  prepend(value) {
-    let newNode = new ListNode(value, this.head);
-    this.head = newNode;
-
-    if (!this.tail) this.tail = newNode;
-  }
-
-  append(value) {
-    let newNode = new ListNode(value);
-    if (this.tail) this.tail.next = newNode;
-    this.tail = newNode;
-    if (!this.head) this.head = newNode;
-
-  }
-
-  delete(value) {
-    if (!this.head) return;
-    while (this.head && this.comparator(this.head.value, value) === 0) {
-      this.head = this.head.next;
-    }
-
-    let current = this.head;
-
-    if (current !== null) {
-      while (current.next) {
-        if (this.comparator(current.next.value, value) === 0) {
-          current.next = current.next.next;
-        } else {
-          current = current.next;
-        }
-      }
-    }
-  }
-  deleteHead() {
-    if (!this.head) return null;
-    let deletedHead = this.head;
-
-    if (this.head.next) {
-      this.head = this.head.next;
-    } else {
-      this.head = null;
-      this.tail = null;
-    }
-
-    return deletedHead;
-  }
-  forEach(callback) {
-    return this.toArray()
-    // На каждом узле вызываем метод toString
-    // что бы получить значение в виде строки.
-    .map(node => node.toString(callback))
-    // Вызываем метод toString на массиве строк.
-    .toString();
-    // let current = this.head;
-    // while (current) {
-    //   callback(current.value);
-    //   current = current.next;
-    // }
-  }
-
-}
 
 
 class Queue {
-    constructor() {
-      this.linkedList = new LinkedList();
-    }
-
-    getUnderlyingList() {
-      return JSON.stringify(this);
-
-    }
-
-    enqueue(value) {
-      this.linkedList.append(value);
-    }
-
-    dequeue() {
-      const removedHead = this.linkedList.deleteHead();
-      return removedHead ? removedHead.value : null;
-    }
+  constructor(){
+    this.first = null;
+    this.last = null;
+    this.size = 0;
   }
+  
+  
+  
+enqueue(value) {
+    let node = new Node(value);
+  
+    if (!this.first){ // for empty list first and last are the same
+      this.first = node;
+      this.last = node;
+    } else { // otherwise we stick it on the end
+      this.last.next=node;
+      this.last=node;
+    }
+  
+    this.size += 1;
+    return node;
+  };
+  
+dequeue () {
+  let temp;
+    if (!this.first) //check for empty list
+      return null;
+  
+    temp = this.first; // grab top of list
+    if (this.first==this.last) {
+      this.last=null;  // when we need to pop the last one
+    }
+    this.first = this.first.next; // move top of list down
+    this.size -= 1;
+    return temp;
+  };
+
+      getUnderlyingList() {
+              return JSON.stringify(this);
+        
+            }
+
+
+// Add an element to the end of the queue.
+
+}
 module.exports = {
   Queue
 };
